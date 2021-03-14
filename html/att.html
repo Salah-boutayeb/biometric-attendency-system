@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="att.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <title>biometric attandency system</title>
+</head>
+<body>
+ <div class="container">
+    <div class="title"> 
+        <h1>Biometric Attendancy System</h1>
+           
+    </div>
+    <hr>
+    <div class="wrapper">
+       
+        <table id="students" class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">id</th>
+                <th scope="col">first Name</th>
+                <th scope="col">last name</th>
+                <th scope="col">log in time</th>
+              </tr>
+            </thead>
+            <tbody id="data">
+           
+<!--               <tr class="table-info">
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+                <td>Column content</td>
+              </tr>
+ -->            
+              
+            </tbody>
+          </table>
+          
+    </div>
+    <div class="dashboard">
+      <button type="button" class="getdata btn btn-info disabled">get data</button>
+      
+    </div>
+    <div class="dashboard">
+      <button type="button" id="BTN" class="export btn btn-outline-info" onclick="exportTableToCSV('etudiantsGI.csv')">export</button>
+    </div>
+
+    <script src="att.js"> 
+</script>
+
+</body>
+</html>
