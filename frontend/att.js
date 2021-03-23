@@ -19,9 +19,9 @@ function fetshdata() {
                         
                     })
                     document.getElementById('data').innerHTML = temp;
-                } 
-        })
-    })
+                }
+        });
+    });
 }
 function deleteAPI() {
     fetch("http://192.168.1.109:5555/deleteAPI"

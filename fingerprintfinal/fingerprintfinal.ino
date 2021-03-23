@@ -13,8 +13,8 @@
 
 LiquidCrystal_I2C lcd(0x3F, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);
 //Fingerprint scanner Pins
-#define Finger_Rx 14 //D5
-#define Finger_Tx 12 //D6
+#define Finger_Tx 14 //D5
+#define Finger_Rx 12 //D6
 
 //************************************************************************//************************************************************************
 SoftwareSerial mySerial(Finger_Rx, Finger_Tx);
@@ -23,11 +23,11 @@ Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
 
 //************************************************************************
 /* WIFI settings*/
-const char *ssid = "toujours";  
-const char *password = "toujours003";
+const char *ssid = "Orange-4714";  
+const char *password = "Salah@2000";
 //************************************************************************
 String postData ;          // post array that will be send to the website
-String link = "http://192.168.1.63:5555/index"; //computer IP or the server domain
+String link = "http://192.168.1.109:5555/index"; //computer IP or the server domain
 int FingerID = 0;         // The Fingerprint ID from the scanner 
 uint8_t id;
 
@@ -35,8 +35,12 @@ uint8_t id;
 void setup() {
 
   Serial.begin(9600);
+  Wire.begin(D2, D1);
   lcd.begin(16,2);   // iInit the LCD for 16 chars 2 lines
-  lcd.backlight();
+  lcd.home();
+  lcd.print("Hello world");
+   /* delay(2000); */
+    lcd.clear();
   connectToWiFi();
   
   //---------------------------------------------
@@ -59,12 +63,12 @@ void setup() {
   
   //------------*test the connection*------------
   
-  //SendFingerprintID( FingerID );
   
 }
 
 void loop()                     // run over and over again
-{  
+{    lcd.clear();
+      
      getFingerprintID();
     // delay(250);//don't ned to run this at full speed.            
 }
@@ -84,26 +88,16 @@ void SendFingerprintID( int finger ){
   Serial.println(httpCode);   //Print HTTP return code
   Serial.println("testtest");
   Serial.println();
-  Serial.println(payload[2]);    //Print request response payload
+ // Serial.println(payload[2]);    //Print request response payload
   Serial.println(payload.substring(0,12));
   
-  Serial.println(payload[1]);
+ // Serial.println(payload[1]);
   Serial.println(postData);   //Post Data
   Serial.println(finger);     //Print fingerprint ID
-   lcd.print(payload.substring(0,12));
+   lcd.print("welcome "+payload.substring(0,12));
    
-  if (payload.substring(0, 5) == "login") {
-    String user_name = payload.substring(5);
-  Serial.println(user_name);
-    
-    
-  }
-  else if (payload.substring(0, 6) == "logout") {
-    String user_name = payload.substring(6);
-  Serial.println(user_name);
- 
-  }
-  delay(1000);
+
+  delay(3000);
   
   postData = "";
   http.end();  //Close connection
@@ -161,6 +155,10 @@ void SendFingerprintID( int finger ){
     return p;
   } else if (p == FINGERPRINT_NOTFOUND) {
     Serial.println("Did not find a match");
+    
+    lcd.print("see administration ?!");
+     delay(1000);
+    lcd.clear();
     return p;
   } else {
     Serial.println("Unknown error");
@@ -170,7 +168,13 @@ void SendFingerprintID( int finger ){
   // found a match!
   Serial.print("Found ID #"); Serial.print(finger.fingerID);
   Serial.print(" with confidence of "); Serial.println(finger.confidence);
-  SendFingerprintID(finger.fingerID );
+  //****************************send fingerID to server********************************
+
+  
+          SendFingerprintID(finger.fingerID );
+
+
+  
   return finger.fingerID;
 }
 
@@ -206,9 +210,10 @@ void connectToWiFi(){
     }
     Serial.println("");
     Serial.println("Connected");
-    lcd.print("Connected");
-     delay(1000);
     lcd.clear();
+    lcd.print("Connected to wifi");
+     /* delay(1000);
+    lcd.clear(); */
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());  //IP address assigned to your ESP
     

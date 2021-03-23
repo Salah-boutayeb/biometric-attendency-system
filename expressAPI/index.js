@@ -14,13 +14,11 @@ var pool        = mysql.createPool({
 });  
 const port = process.env.PORT || 5555;
 http.listen(port ,()=> console.log('server is linsting on',port));
-
-//app.use(cors())
 app.use(Express.json())
-app.use(Express.static('../html'))
+app.use(Express.static('../frontend'))
 app.get('/', function(req, res){
 
-    res.sendFile(path.join(__dirname,'../html/att.html'));
+    res.sendFile(path.join(__dirname,'../frontend/att.html'));
 
   });
 app.get('/getdatalog',(req, res) => {
@@ -32,9 +30,6 @@ app.get('/getdatalog',(req, res) => {
         });   
     });
 }); 
-
-
-
 app.post('/index',(req, res) => {
     var fingerID = req.body.FingerID;
           pool.getConnection( function (err, connection) {
@@ -61,7 +56,6 @@ app.post('/index',(req, res) => {
 app.get('/deleteAPI',(req,res) => {
   pool.getConnection( function (err, connection) {
     connection.query("DELETE FROM etudiant_log", function (err, rows) {
-      
       if (err) throw err;
      console.log("data deleted");
      res.json(rows);  
